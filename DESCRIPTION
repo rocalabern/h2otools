@@ -1,9 +1,9 @@
 Package: h2otools
 Type: Package
-Title: What the package does (short line)
+Title: Tools for H2O
 Version: 1.0
 Date: 2015-01-07
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Roc Alabern, Jordi Puigdellivol, Vicenç Gaitan
+Maintainer: Roc Alabern <roc.alabern@gmail.com>
+Description: Tools for H2O
+License: GPLv2
