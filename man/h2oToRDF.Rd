@@ -2,12 +2,17 @@
 % Please edit documentation in R/h2otools.R
 \name{h2oToRDF}
 \alias{h2oToRDF}
-\title{h2oToRDF}
+\title{H2OParsedData object to R data.frame object}
 \usage{
 h2oToRDF(x, use_hex_string = FALSE, stringsAsFactors = FALSE,
   blank.lines.skip = FALSE, ...)
 }
 \description{
+\code{h2oToRDF} returns a R data.frame object.
+}
+\details{
 h2oToRDF
+
+Another way to achieve this seems to be: as.numeric(as.vector(as.data.frame(...)))
 }
 

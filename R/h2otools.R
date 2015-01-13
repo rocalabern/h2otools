@@ -78,6 +78,11 @@ h2oToR <- function (var, numeric=TRUE) {
 }
 
 #' h2oToRDF
+#' @title H2OParsedData object to R data.frame object
+#' @description
+#' \code{h2oToRDF} returns a R data.frame object.
+#' @details
+#' Another way to achieve this seems to be: as.numeric(as.vector(as.data.frame(...)))
 #' @export
 h2oToRDF <- function (x, use_hex_string=FALSE, stringsAsFactors=FALSE, blank.lines.skip = FALSE, ...) {
   if (class(x) != "H2OParsedData")
