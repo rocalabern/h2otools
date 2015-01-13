@@ -145,24 +145,41 @@ h2oToRarray <- function (x, numeric=TRUE, ...) {
 #' @export
 h2oUnlockKeys <- function (x) {
   url <- paste0("http://", x@ip, ":", x@port, "/2/UnlockKeys")
-  response <- getURL(url)
   print(url)
+  response <- getURL(url)
   print(response)
   invisible(fromJSON(response))
 }
 
-#' h2oModelAUC
-#' @title h2oModelAUC
+#' h2oWebAUC
+#' @title h2oWebAUC
 #' @description
 #' AUC model evaluation
 #' @details
 #' This method opens a browser with html of AUC model evaluation.
 #' @export
-h2oModelAUC <- function (ip, port, dataReal, keyReal, dataModel, keyModel, criterion = "maximum_F1") {
+h2oWebAUC <- function (ip, port, dataReal, keyReal, dataModel, keyModel, criterion = "maximum_F1") {
   url <- paste0("http://", ip, ":", port,
                 "/2/AUC.html?actual=",dataReal,"&vactual=",keyReal,
                 "&predict=",dataModel,"&vpredict=",keyModel,
                 "&thresholds=&threshold_criterion=",criterion)
   print(url)
   browseURL(url)
+}
+
+#' h2oPerformanceAUC
+#' @title h2oPerformanceAUC
+#' @description
+#' AUC model performance evaluation
+#' @details
+#' This method returns AUC model performance evaluation.
+#' @export
+h2oPerformanceAUC <- function (ip, port, dataReal, keyReal, dataModel, keyModel, criterion = "maximum_F1") {
+  url <- paste0("http://", ip, ":", port,
+                "/2/AUC?actual=",dataReal,"&vactual=",keyReal,
+                "&predict=",dataModel,"&vpredict=",keyModel,
+                "&thresholds=&threshold_criterion=",criterion)
+  print(url)
+  response <- getURL(url)
+  invisible(fromJSON(response))
 }
