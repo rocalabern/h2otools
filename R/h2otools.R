@@ -148,5 +148,5 @@ h2oUnlockKeys <- function (x) {
   response <- getURL(url)
   print(url)
   print(response)
-  invisible(response)
+  invisible(fromJSON(response))
 }
