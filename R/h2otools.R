@@ -150,3 +150,19 @@ h2oUnlockKeys <- function (x) {
   print(response)
   invisible(fromJSON(response))
 }
+
+#' h2oModelAUC
+#' @title h2oModelAUC
+#' @description
+#' AUC model evaluation
+#' @details
+#' This method opens a browser with html of AUC model evaluation.
+#' @export
+h2oModelAUC <- function (ip, port, dataReal, keyReal, dataModel, keyModel, criterion = "maximum_F1") {
+  url <- paste0("http://", ip, ":", port,
+                "/2/AUC.html?actual=",dataReal,"&vactual=",keyReal,
+                "&predict=",dataModel,"&vpredict=",keyModel,
+                "&thresholds=&threshold_criterion=",criterion)
+  print(url)
+  browseURL(url)
+}
