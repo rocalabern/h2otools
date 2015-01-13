@@ -144,7 +144,7 @@ h2oToRarray <- function (x, numeric=TRUE, ...) {
 #' This method is not safe. It is supposed to unlock all keys. Use at your own risk.
 #' @export
 h2oUnlockKeys <- function (x) {
-  url <- paste0("http://", x@h2o@ip, ":", x@h2o@port, "/2/UnlockKeys")
+  url <- paste0("http://", x@ip, ":", x@port, "/2/UnlockKeys")
   response <- getURL(url)
   print(url)
   print(response)
