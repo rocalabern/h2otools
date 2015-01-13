@@ -15,4 +15,7 @@ h2oToRDF
 
 Another way to achieve this seems to be: as.numeric(as.vector(as.data.frame(...)))
 }
+\seealso{
+\code{\link{h2o::as.data.frame.H2OParsedData}}
+}
 
