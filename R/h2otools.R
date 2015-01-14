@@ -102,7 +102,7 @@ h2oType <- function (h2oServer, strKey) {
 #' h2oToR
 #' @export
 h2oToR <- function (var, numeric=TRUE) {
-  if (class(model_scores_real) == "H2OParsedData") {
+  if (class(var) == "H2OParsedData") {
     if (numeric) {
       return (as.numeric(as.data.frame(var)[,1]))
     } else {
