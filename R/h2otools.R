@@ -1,3 +1,18 @@
+#' h2oUnlockKeys
+#' @title h2oUnlockKeys
+#' @description
+#' Unlock all keys
+#' @details
+#' This method is not safe. It is supposed to unlock all keys. Use at your own risk.
+#' @export
+h2oUnlockKeys <- function (x) {
+  url <- paste0("http://", x@ip, ":", x@port, "/2/UnlockKeys")
+  print(url)
+  response <- getURL(url)
+  print(response)
+  invisible(fromJSON(response))
+}
+
 #' h2ormAll
 #' @export
 h2ormAll <- function(h2oServer) {
@@ -16,9 +31,9 @@ h2ormLastValues <- function(h2oServer, pattern = "Last.value.") {
   invisible(keys)
 }
 
-#' h2oshowMemory
+#' h2oShowMemory
 #' @export
-h2oshowMemory <- function(h2oServer) {
+h2oShowMemory <- function(h2oServer) {
   ts <- h2o.ls(h2oServer)
   t <- as.data.frame(cbind(ts$Key, ts$Bytesize / 1024^2))
   colnames(t) <- colnames(ts)
@@ -136,37 +151,6 @@ h2oToRarray <- function (x, numeric=TRUE, ...) {
   return (array)
 }
 
-#' h2oUnlockKeys
-#' @title h2oUnlockKeys
-#' @description
-#' Unlock all keys
-#' @details
-#' This method is not safe. It is supposed to unlock all keys. Use at your own risk.
-#' @export
-h2oUnlockKeys <- function (x) {
-  url <- paste0("http://", x@ip, ":", x@port, "/2/UnlockKeys")
-  print(url)
-  response <- getURL(url)
-  print(response)
-  invisible(fromJSON(response))
-}
-
-#' h2oWebAUC
-#' @title h2oWebAUC
-#' @description
-#' AUC model evaluation
-#' @details
-#' This method opens a browser with html of AUC model evaluation.
-#' @export
-h2oWebAUC <- function (ip, port, dataReal, keyReal, dataModel, keyModel, criterion = "maximum_F1") {
-  url <- paste0("http://", ip, ":", port,
-                "/2/AUC.html?actual=",dataReal,"&vactual=",keyReal,
-                "&predict=",dataModel,"&vpredict=",keyModel,
-                "&thresholds=&threshold_criterion=",criterion)
-  print(url)
-  browseURL(url)
-}
-
 #' h2oPerformanceAUC
 #' @title h2oPerformanceAUC
 #' @description
@@ -182,4 +166,36 @@ h2oPerformanceAUC <- function (ip, port, dataReal, keyReal, dataModel, keyModel,
   print(url)
   response <- getURL(url)
   invisible(fromJSON(response))
+}
+
+#' h2oWebAUC
+#' @title h2oWebAUC
+#' @description
+#' Web AUC model evaluation
+#' @details
+#' Opens H2O url for AUC model evaluation.
+#' @export
+h2oWebAUC <- function (ip, port, dataReal, keyReal, dataModel, keyModel, criterion = "maximum_F1") {
+  url <- paste0("http://", ip, ":", port,
+                "/2/AUC.html?actual=",dataReal,"&vactual=",keyReal,
+                "&predict=",dataModel,"&vpredict=",keyModel,
+                "&thresholds=&threshold_criterion=",criterion)
+  print(url)
+  browseURL(url)
+}
+
+#' h2oWebStoreView
+#' @title h2oWebStoreView
+#' @description
+#' Web Store View
+#' @details
+#' Opens H2O url for Store View.
+#' @export
+h2oWebStoreView <- function (x, ip, port) {
+  url <- paste0("http://", ip, ":", port, "/StoreView.html")
+  print(url)
+  browseURL(url)
+  url <- paste0("http://", x@ip, ":", x@port, "/StoreView.html")
+  print(url)
+  browseURL(url)
 }

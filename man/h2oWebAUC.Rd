@@ -8,11 +8,11 @@ h2oWebAUC(ip, port, dataReal, keyReal, dataModel, keyModel,
   criterion = "maximum_F1")
 }
 \description{
-AUC model evaluation
+Web AUC model evaluation
 }
 \details{
 h2oWebAUC
 
-This method opens a browser with html of AUC model evaluation.
+Opens H2O url for AUC model evaluation.
 }
 
