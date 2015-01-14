@@ -31,6 +31,21 @@ h2ormLastValues <- function(h2oServer, pattern = "Last.value.") {
   invisible(keys)
 }
 
+#' h2ormPattern
+#' @export
+h2ormPattern <- function(h2oServer, pattern) {
+  keys <- h2o.ls(h2oServer, pattern = pattern)$Key
+  if (!is.null(keys))
+    h2o.rm(h2oServer, keys)
+  invisible(keys)
+}
+
+#' h2oKeysPattern
+#' @export
+h2oKeysPattern <- function(h2oServer, pattern) {
+  return (h2o.ls(h2oServer, pattern = pattern)$Key)
+}
+
 #' h2oShowMemory
 #' @export
 h2oShowMemory <- function(h2oServer) {
