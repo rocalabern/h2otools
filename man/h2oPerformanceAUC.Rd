@@ -4,7 +4,7 @@
 \alias{h2oPerformanceAUC}
 \title{h2oPerformanceAUC}
 \usage{
-h2oPerformanceAUC(ip, port, dataReal, keyReal, dataModel, keyModel,
+h2oPerformanceAUC(h2oServer, dataReal, keyReal, dataModel, keyModel,
   criterion = "maximum_F1")
 }
 \description{

@@ -4,8 +4,8 @@
 \alias{h2oWebAUC}
 \title{h2oWebAUC}
 \usage{
-h2oWebAUC(ip, port, dataReal, keyReal, dataModel, keyModel,
-  criterion = "maximum_F1")
+h2oWebAUC(dataReal, keyReal, dataModel, keyModel, criterion = "maximum_F1",
+  ip = NULL, port = NULL, h2oServer = NULL)
 }
 \description{
 Web AUC model evaluation

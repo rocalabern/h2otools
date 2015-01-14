@@ -4,7 +4,7 @@
 \alias{h2oWebStoreView}
 \title{h2oWebStoreView}
 \usage{
-h2oWebStoreView(x, ip, port)
+h2oWebStoreView(ip = NULL, port = NULL, h2oServer = NULL)
 }
 \description{
 Web Store View
