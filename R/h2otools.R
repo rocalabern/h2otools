@@ -78,7 +78,7 @@ h2oKey <- function (key,sep="_") {
 #' h2oKeys
 #' @export
 h2oKeys <- function (...,sep="_") {
-  return (paste(strPrefix,paste(sapply(c(...), function(x) {if (is.character(x)) {return(x)} else {return("object")} }),sep=sep,collapse=sep),sep=sep,collapse=sep))
+  return (paste(strPrefix,paste(sapply(c(...), function(x) {if (is.character(x)) {return(x)} else {return("object")} }),sep="",collapse=sep),sep=sep,collapse=sep))
 }
 
 #' h2oType
