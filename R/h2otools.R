@@ -20,7 +20,7 @@ h2ormObject <- function (h2oServer, h2oParsedData) {
   key <- h2oParsedData$Key
   h2o.rm(h2oServer, keys=key)
   rm(h2oParsedData, envir = sys.frame(1))
-  invisible(key)
+  return (key)
 }
 
 #' h2ormAll
