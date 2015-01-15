@@ -26,13 +26,15 @@ h2oPlotResults <- function(
   if (!is.null(strExportFile) && strExportFile!="") dev.off()
 
   if (!is.null(strExportFile) && strExportFile!="") png(paste0(strExportFile, '_ROC.png'),width=width,height=height)
+  df1 = data.frame(x=1-resultsAUC$aucdata$specificity[-indOpt], y=resultsAUC$aucdata$recall[-indOpt])
+  df2 = data.frame(x=1-resultsAUC$aucdata$specificity[indOpt], y=resultsAUC$aucdata$recall[indOpt])
   p <- ggplot() +
     geom_line(aes(x=c(0,1),y=c(0,1)), color=rgb(0,0,0,0.2)) +
     geom_line(aes(x=1-resultsAUC$aucdata$specificity,y=resultsAUC$aucdata$recall),
               color=rgb(0.1,0.1,0.6,0.4)) +
-    geom_point(aes(x=1-resultsAUC$aucdata$specificity[-indOpt],y=resultsAUC$aucdata$recall[-indOpt]),
+    geom_point(data=df1, aes(x=x,y=y),
                size=2, color=rgb(0.1,0.1,0.6,0.6)) +
-    geom_point(aes(x=1-resultsAUC$aucdata$specificity[indOpt],y=resultsAUC$aucdata$recall[indOpt]),
+    geom_point(data=df2, aes(x=x,y=y),
                size=5, color=rgb(0.1,0.6,0.4,0.6)) +
     ggtitle("ROC curve") +
     ylab("recall") +
