@@ -4,7 +4,7 @@
 \alias{h2oToRDF}
 \title{H2OParsedData object to R data.frame object}
 \usage{
-h2oToRDF(x, use_hex_string = FALSE, stringsAsFactors = FALSE,
+h2oToRDF(h2oParsedData, use_hex_string = FALSE, stringsAsFactors = FALSE,
   blank.lines.skip = FALSE, ...)
 }
 \description{

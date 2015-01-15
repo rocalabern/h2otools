@@ -5,8 +5,8 @@
 #' @details
 #' This method is not safe. It is supposed to unlock all keys. Use at your own risk.
 #' @export
-h2oUnlockKeys <- function (x) {
-  url <- paste0("http://", x@ip, ":", x@port, "/2/UnlockKeys")
+h2oUnlockKeys <- function (h2oServer) {
+  url <- paste0("http://", h2oServer@ip, ":", h2oServer@port, "/2/UnlockKeys")
   print(url)
   response <- getURL(url)
   print(response)
@@ -125,9 +125,9 @@ h2oToR <- function (var, numeric=TRUE) {
 #' Another way to achieve this seems to be: as.numeric(as.vector(as.data.frame(...)))
 #' @seealso \code{\link{as.data.frame.H2OParsedData}}
 #' @export
-h2oToRDF <- function (x, use_hex_string=FALSE, stringsAsFactors=FALSE, blank.lines.skip = FALSE, ...) {
-  if (class(x) != "H2OParsedData")
-    stop("x must be of class H2OParsedData")
+h2oToRDF <- function (h2oParsedData, use_hex_string=FALSE, stringsAsFactors=FALSE, blank.lines.skip = FALSE, ...) {
+  if (class(h2oParsedData) != "H2OParsedData")
+    stop("First argyment myst be must be of class H2OParsedData")
   #   use_hex_string = FALSE
   #   if (as.numeric(R.Version()$major) >= 3) {
   #     if (as.numeric(R.Version()$minor) >= 1) {
@@ -135,8 +135,8 @@ h2oToRDF <- function (x, use_hex_string=FALSE, stringsAsFactors=FALSE, blank.lin
   #     }
   #   }
   warning(paste0("Using use_hex_string=",use_hex_string))
-  url <- paste("http://", x@h2o@ip, ":", x@h2o@port, "/2/DownloadDataset",
-               "?src_key=", URLencode(x@key), "&hex_string=", as.numeric(use_hex_string),
+  url <- paste("http://", h2oParsedData@h2o@ip, ":", h2oParsedData@h2o@port, "/2/DownloadDataset",
+               "?src_key=", URLencode(h2oParsedData@key), "&hex_string=", as.numeric(use_hex_string),
                sep = "")
   ttt <- getURL(url)
   n = nchar(ttt)
@@ -168,10 +168,10 @@ h2oToRDF <- function (x, use_hex_string=FALSE, stringsAsFactors=FALSE, blank.lin
 
 #' h2oToRarray
 #' @export
-h2oToRarray <- function (x, numeric=TRUE, ...) {
-  if (class(x) != "H2OParsedData") stop("Input is not an H2OParsedData")
-  if (numeric && h2oType(x@h2o,x)[1] != "Real") stop("Input is not Real")
-  array = h2oToRDF(x,...)
+h2oToRarray <- function (h2oParsedData, numeric=TRUE, ...) {
+  if (class(h2oParsedData) != "H2OParsedData") stop("Input must be a H2OParsedData")
+  if (numeric && h2oType(h2oParsedData@h2o,h2oParsedData)[1] != "Real") stop("Input is not Real")
+  array = h2oToRDF(h2oParsedData,...)
   if (numeric) array = as.numeric(unlist(array))
   return (array)
 }

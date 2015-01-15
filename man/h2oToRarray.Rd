@@ -4,7 +4,7 @@
 \alias{h2oToRarray}
 \title{h2oToRarray}
 \usage{
-h2oToRarray(x, numeric = TRUE, ...)
+h2oToRarray(h2oParsedData, numeric = TRUE, ...)
 }
 \description{
 h2oToRarray

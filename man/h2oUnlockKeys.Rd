@@ -4,7 +4,7 @@
 \alias{h2oUnlockKeys}
 \title{h2oUnlockKeys}
 \usage{
-h2oUnlockKeys(x)
+h2oUnlockKeys(h2oServer)
 }
 \description{
 Unlock all keys
