@@ -17,7 +17,7 @@ h2oUnlockKeys <- function (h2oServer) {
 #' @export
 h2ormObject <- function (h2oServer, h2oParsedData) {
   if (class(h2oParsedData) != "H2OParsedData") stop("Input is not an H2OParsedData.")
-  key <- h2oParsedData$Key
+  key <- h2oParsedData@key
   cat(paste0(key,"\n"))
   h2o.rm(h2oServer, keys=key)
   rm(h2oParsedData, envir = sys.frame(1))
