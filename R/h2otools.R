@@ -13,6 +13,16 @@ h2oUnlockKeys <- function (h2oServer) {
   invisible(fromJSON(response))
 }
 
+#' h2oType
+#' @export
+h2ormObject <- function (h2oServer, h2oParsedData) {
+  if (class(h2oParsedData) != "H2OParsedData") stop("Input is not an H2OParsedData.")
+  key <- h2oParsedData$Key
+  h2o.rm(h2oServer, keys=key)
+  rm(h2oParsedData)
+  invisible(key)
+}
+
 #' h2ormAll
 #' @export
 h2ormAll <- function(h2oServer) {
