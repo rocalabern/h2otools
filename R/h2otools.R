@@ -171,9 +171,9 @@ h2oToRDF <- function (h2oParsedData, use_hex_string=FALSE, stringsAsFactors=FALS
 h2oToRarray <- function (h2oParsedData, numeric=TRUE, ...) {
   if (class(h2oParsedData) != "H2OParsedData") stop("Input must be a H2OParsedData")
   inputType = h2oType(h2oParsedData@h2o,h2oParsedData)[1]
-  if (numeric && inputType != "Real") {
+  if (numeric && inputType != "Real" && inputType != "Int") {
     print(paste0("Input type is: ",inputType))
-    stop("Input is not Real")
+    stop("Input is not numeric (Real/Int)")
   }
   array = h2oToRDF(h2oParsedData,...)
   if (numeric) array = as.numeric(unlist(array))
