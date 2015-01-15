@@ -19,7 +19,7 @@ h2ormObject <- function (h2oServer, h2oParsedData) {
   if (class(h2oParsedData) != "H2OParsedData") stop("Input is not an H2OParsedData.")
   key <- h2oParsedData$Key
   h2o.rm(h2oServer, keys=key)
-  rm(h2oParsedData)
+  rm(h2oParsedData, envir = sys.frame(1))
   invisible(key)
 }
 
