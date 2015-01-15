@@ -25,7 +25,7 @@ h2ormAll <- function(h2oServer) {
 #' h2ormLastValues
 #' @export
 h2ormLastValues <- function(h2oServer, pattern = "Last.value.") {
-  if (pattern==NULL || pattern=="") stop("Pattern is empty.")
+  if (is.null(pattern) || pattern=="") stop("Pattern is empty.")
   keys <- h2o.ls(h2oServer, pattern = pattern)$Key
   if (!is.null(keys))
     h2o.rm(h2oServer, keys)
@@ -35,7 +35,7 @@ h2ormLastValues <- function(h2oServer, pattern = "Last.value.") {
 #' h2ormPattern
 #' @export
 h2ormPattern <- function(h2oServer, pattern) {
-  if (pattern==NULL || pattern=="") stop("Pattern is empty.")
+  if (is.null(pattern) || pattern=="") stop("Pattern is empty.")
   keys <- h2o.ls(h2oServer, pattern = pattern)$Key
   if (!is.null(keys))
     h2o.rm(h2oServer, keys)
@@ -45,7 +45,7 @@ h2ormPattern <- function(h2oServer, pattern) {
 #' h2oKeysPattern
 #' @export
 h2oKeysPattern <- function(h2oServer, pattern) {
-  if (pattern==NULL || pattern=="") stop("Pattern is empty.")
+  if (is.null(pattern) || pattern=="") stop("Pattern is empty.")
   return (h2o.ls(h2oServer, pattern = pattern)$Key)
 }
 
@@ -61,7 +61,7 @@ h2oShowMemory <- function(h2oServer) {
 #' h2oSetPrefixKey
 #' @export
 h2oSetPrefixKey <- function (prefix) {
-  if (prefix==NULL || prefix=="") stop("Prefix is empty.")
+  if (is.null(prefix) || prefix=="") stop("Prefix is empty.")
   if (is.character(prefix)) {
     strPrefix <<- prefix
   } else {
