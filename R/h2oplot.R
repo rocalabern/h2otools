@@ -26,7 +26,7 @@ h2oPlotResults <- function(
   if (!is.null(strExportFile) && strExportFile!="") dev.off()
 
   if (!is.null(strExportFile) && strExportFile!="") png(paste0(strExportFile, '_ROC.png'),width=width,height=height)
-  df1 = data.frame(x=1-resultsAUC$aucdata$specificity[-indOpt], y=resultsAUC$aucdata$recall[-indOpt])
+  df1 =  data.frame(x=1-resultsAUC$aucdata$specificity[-indOpt], y=resultsAUC$aucdata$recall[-indOpt])
   df2 = data.frame(x=1-resultsAUC$aucdata$specificity[indOpt], y=resultsAUC$aucdata$recall[indOpt])
   p <- ggplot() +
     geom_line(aes(x=c(0,1),y=c(0,1)), color=rgb(0,0,0,0.2)) +
