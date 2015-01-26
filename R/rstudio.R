@@ -29,32 +29,42 @@ ls.objects <- function (
   }
 }
 
+#' rs.system
+#' @export
+rs.system <- function (command) {
+  textOutput <- system(command, intern=TRUE)
+  cat(paste(textOutput, collapse="\n"))
+  cat("\n")
+  invisible(textOutput)
+}
+
 #' rs.memory
 #' @export
 rs.memory <- function () {
-  system("ps aux | grep 'USER' | grep 'PID' | grep '%CPU' | grep '%MEM' | grep 'COMMAND' | grep -v 'grep'")
-  system("ps aux | grep 'h2o' | grep -v 'grep'")
+  rs.system("ps aux | grep 'USER' | grep 'PID' | grep '%CPU' | grep '%MEM' | grep 'COMMAND' | grep -v 'grep'")
+  rs.system("ps aux | grep 'h2o.jar' | grep -v 'grep'")
   cat("\n")
-  system("ps aux | grep 'USER' | grep 'PID' | grep '%CPU' | grep '%MEM' | grep 'COMMAND' | grep -v 'grep'")
-  system("ps aux | grep 'rstudio' | grep -v 'grep'")
+  rs.system("ps aux | grep 'USER' | grep 'PID' | grep '%CPU' | grep '%MEM' | grep 'COMMAND' | grep -v 'grep'")
+  rs.system("ps aux | grep 'rstudio-server' | grep -v 'grep'")
   cat("\n")
-  system("free -m")
+  rs.system("free -m")
+  invisible(NULL)
 }
 
 #' rs.show
 #' @export
 rs.show <- function () {
-  system("rstudio-server active-sessions")
+  rs.system("rstudio-server active-sessions")
 }
 
 #' rs.suspend
 #' @export
 rs.suspend <- function (pid) {
-  system(paste0("rstudio-server suspend-session ",pid))
+  rs.system(paste0("rstudio-server suspend-session ",pid))
 }
 
 #' rs.restart
 #' @export
 rs.restart <- function (pid) {
-  system(paste0("rstudio-server force-suspend-session ",pid))
+  rs.system(paste0("rstudio-server force-suspend-session ",pid))
 }
