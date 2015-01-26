@@ -29,6 +29,18 @@ ls.objects <- function (
   }
 }
 
+#' rs.memory
+#' @export
+rs.memory <- function () {
+  system("ps aux | grep 'USER' | grep 'PID' | grep '%CPU' | grep '%MEM' | grep 'COMMAND' | grep -v 'grep'")
+  system("ps aux | grep 'h2o' | grep -v 'grep'")
+  cat("\n")
+  system("ps aux | grep 'USER' | grep 'PID' | grep '%CPU' | grep '%MEM' | grep 'COMMAND' | grep -v 'grep'")
+  system("ps aux | grep 'rstudio' | grep -v 'grep'")
+  cat("\n")
+  system("free -m")
+}
+
 #' rs.show
 #' @export
 rs.show <- function () {
