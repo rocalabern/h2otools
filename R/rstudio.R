@@ -24,7 +24,7 @@ ls.objects <- function (
     obj.dim[vec, 1] <- napply(names, length)[vec]
     out <- data.frame(obj.type, obj.size, obj.prettysize, obj.dim)
     names(out) <- c("Type", "Size", "PrettySize", "Rows", "Columns")
-    out <- out[order(out[[order.by]], decreasing=decreasing), ]
+    if (!is.null(order.by) && order.by!="Name") out <- out[order(out[[order.by]], decreasing=decreasing), ]
     out
   }
 }
