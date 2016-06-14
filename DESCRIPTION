@@ -7,3 +7,4 @@ Author: Roc Alabern, Jordi Puigdellivol, Vicenç Gaitan
 Maintainer: Roc Alabern <roc.alabern@gmail.com>
 Description: Tools for H2O
 License: GPLv2
+RoxygenNote: 5.0.1
