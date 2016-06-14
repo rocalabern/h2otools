@@ -3,14 +3,16 @@
 TOP_FEATURES = 5
 
 #' h2o.get_auc
+#' @description Offitial H2O helper function (binaryClassificationHelper.R).
 #' @export
 h2o.get_auc <- function(model, data, response) {
   pred <- h2o.predict(model, data)[,3]
   perf <- h2o.performance(pred, data[,response])
-  perf@model$auc
+  return(perf@model$auc)
 }
 
 #' h2o.varimp
+#' @description Offitial H2O helper function (binaryClassificationHelper.R).
 #' @export
 h2o.varimp <- function(algo, model) {
   if (identical(algo, h2o.glm)) {
@@ -23,7 +25,22 @@ h2o.varimp <- function(algo, model) {
   varimp
 }
 
+#' h2o.get_varimp
+#' @description Offitial H2O helper function (binaryClassificationHelper.R).
+#' @export
+h2o.get_varimp <- function(algo, model, top_features=5) {
+  if (identical(algo, h2o.glm)) {
+    varimp <- paste(names(sort(abs(model@model$normalized_coefficients), TRUE))[1:top_features], collapse = ",", sep = ",")
+  } else if (identical(algo, h2o.randomForest) || identical(algo, h2o.deeplearning)) {
+    varimp <- paste(names(sort(model@model$varimp[1,], TRUE))[1:top_features], collapse = ",", sep = ",")
+  } else if (identical(algo, h2o.gbm)) {
+    varimp <- paste(rownames(model@model$varimp)[1:top_features], collapse = ",", sep = ",")
+  }
+  return(varimp)
+}
+
 #' h2o.validate
+#' @description Offitial H2O helper function (binaryClassificationHelper.R).
 #' @export
 h2o.validate <- function(t0, model, modeltype, validation, response, varimp) {
   elapsed_seconds <- as.numeric(Sys.time()) - as.numeric(t0)
@@ -36,6 +53,7 @@ h2o.validate <- function(t0, model, modeltype, validation, response, varimp) {
 }
 
 #' h2o.fit
+#' @description Offitial H2O helper function (binaryClassificationHelper.R).
 #' @export
 h2o.fit <- function(algo, data, args) {
   t0 <- Sys.time()
@@ -56,6 +74,7 @@ h2o.fit <- function(algo, data, args) {
 }
 
 #' h2o.selectModel
+#' @description Offitial H2O helper function (binaryClassificationHelper.R).
 #' @export
 h2o.selectModel <- function(x) {
   c(model_key = x[[1]]@key,
@@ -67,8 +86,9 @@ h2o.selectModel <- function(x) {
 }
 
 #' h2o.leaderBoard
+#' @description Offitial H2O helper function (binaryClassificationHelper.R).
 #' @export
-h2o.leaderBoard <- function(models, test_hex, response) {
+h2o.leaderBoard <- function(models, test_hex, response, top_features=5) {
   model.list <- as.data.frame(t(as.data.frame(lapply(models, h2o.selectModel))))
   model.list$train_auc <- as.numeric(as.character(model.list$train_auc))
   model.list$validation_auc <- as.numeric(as.character(model.list$validation_auc))
@@ -98,7 +118,7 @@ h2o.leaderBoard <- function(models, test_hex, response) {
   cat(paste(" =---------Summary------------=\n",
             "Best model type: ", models.sort.by.auc[1,]$model_type, "\n",
             "Best model AUC on test: ", round(test_auc,6), "\n",
-            "Top", TOP_FEATURES, "important features: ", models.sort.by.auc[1,]$important_feat, "\n",
+            "Top", top_features, "important features: ", models.sort.by.auc[1,]$important_feat, "\n",
             "Model training time (incl. tuning, grid search): ", round(models.sort.by.auc[1,]$tuning_time_s,6), "seconds \n",
             "=----------------------------=\n"))
   best_model

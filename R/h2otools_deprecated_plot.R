@@ -1,6 +1,6 @@
-#' h2oPlotResults
+#' @title h2o.plot.results
 #' @export
-h2oPlotResults <- function(
+h2o.plot.results <- function(
   model_score,
   real_target,
   results,
@@ -14,8 +14,8 @@ h2oPlotResults <- function(
 
   if (!is.null(strExportFile) && strExportFile!="") png(paste0(strExportFile, '_GAIN.png'),width=width,height=height)
   p <- ggplot() +
-    geom_line(aes(x=c(0,1),y=c(0,1)), color=rgb(0,0,0,0.2)) +
-    geom_line(aes(x=c(0,results@gains$Quantile,1),y=c(0,results@gains$Cume.Pct.Total.Lift,1)),
+    geom_path(aes(x=c(0,1),y=c(0,1)), color=rgb(0,0,0,0.2)) +
+    geom_path(aes(x=c(0,results@gains$Quantile,1),y=c(0,results@gains$Cume.Pct.Total.Lift,1)),
               color=rgb(0.1,0.1,0.6,0.4)) +
     geom_point(aes(x=c(0,results@gains$Quantile,1),y=c(0,results@gains$Cume.Pct.Total.Lift,1)),
                size=2, color=rgb(0.1,0.1,0.6,0.6)) +
@@ -29,8 +29,8 @@ h2oPlotResults <- function(
   df1 = data.frame(x=1-resultsAUC$aucdata$specificity[-indOpt], y=resultsAUC$aucdata$recall[-indOpt])
   df2 = data.frame(x=1-resultsAUC$aucdata$specificity[indOpt], y=resultsAUC$aucdata$recall[indOpt])
   p <- ggplot() +
-    geom_line(aes(x=c(0,1),y=c(0,1)), color=rgb(0,0,0,0.2)) +
-    geom_line(aes(x=1-resultsAUC$aucdata$specificity,y=resultsAUC$aucdata$recall),
+    geom_path(aes(x=c(0,1),y=c(0,1)), color=rgb(0,0,0,0.2)) +
+    geom_path(aes(x=1-resultsAUC$aucdata$specificity,y=resultsAUC$aucdata$recall),
               color=rgb(0.1,0.1,0.6,0.4)) +
     geom_point(data=df1, aes(x=x,y=y),
                size=2, color=rgb(0.1,0.1,0.6,0.6)) +
@@ -73,9 +73,9 @@ h2oPlotResults <- function(
   print(results@model$confusion)
 }
 
-#' h2oPlotGain
+#' @title h2o.plot.gain
 #' @export
-h2oPlotGain <- function(
+h2o.plot.gain <- function(
   model_score,
   real_target,
   results,
@@ -87,8 +87,8 @@ h2oPlotGain <- function(
 
   if (!is.null(strExportFile) && strExportFile!="") png(paste0(strExportFile, '_GAIN.png'),width=width,height=height)
   p <- ggplot() +
-    geom_line(aes(x=c(0,1),y=c(0,1)), color=rgb(0,0,0,0.2)) +
-    geom_line(aes(x=c(0,results@gains$Quantile,1),y=c(0,results@gains$Cume.Pct.Total.Lift,1)),
+    geom_path(aes(x=c(0,1),y=c(0,1)), color=rgb(0,0,0,0.2)) +
+    geom_path(aes(x=c(0,results@gains$Quantile,1),y=c(0,results@gains$Cume.Pct.Total.Lift,1)),
               color=rgb(0.1,0.1,0.6,0.4)) +
     geom_point(aes(x=c(0,results@gains$Quantile,1),y=c(0,results@gains$Cume.Pct.Total.Lift,1)),
                size=2, color=rgb(0.1,0.1,0.6,0.6)) +
@@ -99,10 +99,9 @@ h2oPlotGain <- function(
   if (!is.null(strExportFile) && strExportFile!="") dev.off()
 }
 
-
-#' h2oPlotROC
+#' @title h2o.plot.ROC
 #' @export
-h2oPlotROC <- function(
+h2o.plot.ROC <- function(
   model_score,
   real_target,
   results,
@@ -118,8 +117,8 @@ h2oPlotROC <- function(
   df1 = data.frame(x=1-resultsAUC$aucdata$specificity[-indOpt], y=resultsAUC$aucdata$recall[-indOpt])
   df2 = data.frame(x=1-resultsAUC$aucdata$specificity[indOpt], y=resultsAUC$aucdata$recall[indOpt])
   p <- ggplot() +
-    geom_line(aes(x=c(0,1),y=c(0,1)), color=rgb(0,0,0,0.2)) +
-    geom_line(aes(x=1-resultsAUC$aucdata$specificity,y=resultsAUC$aucdata$recall),
+    geom_path(aes(x=c(0,1),y=c(0,1)), color=rgb(0,0,0,0.2)) +
+    geom_path(aes(x=1-resultsAUC$aucdata$specificity,y=resultsAUC$aucdata$recall),
               color=rgb(0.1,0.1,0.6,0.4)) +
     geom_point(data=df1, aes(x=x,y=y),
                size=2, color=rgb(0.1,0.1,0.6,0.6)) +
@@ -147,9 +146,9 @@ h2oPlotROC <- function(
 }
 
 
-#' h2oPlotRelativeImportance
+#' @title h2o.plot.varimp
 #' @export
-h2oPlotRelativeImportance <- function(
+h2o.plot.varimp <- function(
   model_score,
   real_target,
   results,

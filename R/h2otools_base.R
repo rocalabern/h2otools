@@ -1,3 +1,102 @@
+# roxygen2::roxygenise()
+
+#' @title h2oInit
+#' @export
+h2oInit <- function(
+  h2oMEM = params$h2oMEM,
+  h2oThreads = params$h2oThreads,
+  h2oNAME = params$h2oNAME,
+  h2oPORT = params$h2oPORT,
+  h2oJAR = system.file("java", "h2o.jar", package = "h2o"),
+  h2oOutput = "nohup.out",
+  wait=FALSE,
+  sleep = 10
+) {
+  system2(command="java",
+          args=
+            paste0(
+              "-Xmx",h2oMEM,"g",
+              " -ea -jar ",h2oJAR," -port ",h2oPORT," -name ",h2oNAME,
+              " -nthreads ",h2oThreads,
+              " --ice_root ./"),
+          stdout=h2oOutput,
+          wait=wait)
+
+  output = system(paste0("tail -n ",20," ",h2oOutput), intern=TRUE)
+
+  ptm <- proc.time()
+  ptm[3]
+
+  while (length(grep("Cloud of size", output))==0 && (proc.time()[3]-ptm[3])<sleep) {
+    output = system(paste0("tail -n ",20," ",h2oOutput), intern=TRUE)
+    Sys.sleep(time = 1)
+  }
+  h2oLog(h2oOutput=h2oOutput)
+}
+
+#' @title h2oInitRemote
+#' @export
+h2oInitRemote <- function (
+  server_remote_h2o_ip = connData$server_remote_h2o_ip,
+  server_remote_h2o_port = connData$server_remote_h2o_port,
+  server_remote_h2o_user = connData$server_remote_h2o_user,
+  server_remote_h2o_pass = connData$server_remote_h2o_pass,
+  server_remote_h2o_java = connData$server_remote_h2o_java,
+  server_remote_h2o_jar = connData$server_remote_h2o_jar,
+  server_remote_h2o_folder = connData$server_remote_h2o_folder,
+  server_remote_h2o_nohup = connData$server_remote_h2o_nohup,
+  server_remote_h2o_nohup_file = connData$server_remote_h2o_nohup_file,
+  h2oMEM = params$h2oMEM,
+  h2oThreads = params$h2oThreads,
+  h2oNAME = params$h2oNAME,
+  h2oPORT = params$h2oPORT,
+  sleep = 10
+) {
+  con = ssh.shell()
+  ssh.open(con, server_remote_h2o_ip, server_remote_h2o_port, server_remote_h2o_user, server_remote_h2o_pass)
+
+  ssh.sendCommand(con, paste0("cd ", server_remote_h2o_folder))
+  ssh.sendCommand(con, "pwd")
+
+  strH2OINIT = paste0(server_remote_h2o_java,"java",
+         " -Xmx",h2oMEM,"g",
+         " -ea -jar ",paste0(server_remote_h2o_folder, server_remote_h2o_jar)," -ip ",server_remote_h2o_ip," -port ",h2oPORT," -name ",h2oNAME,
+         " -nthreads ",h2oThreads,
+         " --ice_root ./")
+
+  if (server_remote_h2o_nohup) {
+    strNOHUPprefix = "nohup "
+    if (server_remote_h2o_nohup) strNOHUPsufix = paste0(" > ",server_remote_h2o_nohup_file) else strNOHUPsufix = ""
+    strH2OINIT = paste0(strNOHUPprefix, strH2OINIT, strNOHUPsufix)
+  }
+
+  ssh.sendCommand(con, strH2OINIT)
+
+  ptm <- proc.time()
+  while ((proc.time()[3]-ptm[3])<sleep) {
+    Sys.sleep(time = 1)
+  }
+
+  ssh.flush(con)
+
+  ssh.close(con)
+}
+
+#' @title h2oLog
+#' @export
+h2oLog <- function(
+  h2oOutput = "nohup.out",
+  n = 20
+) {
+  output = system(paste0("tail -n ",n," ",h2oOutput), intern=TRUE)
+  if (exists("x.message")) {
+    x.message(output)
+  } else {
+    message(output)
+  }
+  invisible(output)
+}
+
 #' h2oUnlockKeys
 #' @title h2oUnlockKeys
 #' @description
