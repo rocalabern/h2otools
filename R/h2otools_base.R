@@ -22,13 +22,23 @@ h2oInit <- function(
           stdout=h2oOutput,
           wait=wait)
 
-  output = system(paste0("tail -n ",20," ",h2oOutput), intern=TRUE)
+  tryCatch({
+    output = system(paste0("tail -n ",20," ",h2oOutput), intern=TRUE)
+  },  error = function(e) {
+    message(paste0("call: ", e$call))
+    warning(e$message)
+  })
 
   ptm <- proc.time()
   ptm[3]
 
   while (length(grep("Cloud of size", output))==0 && (proc.time()[3]-ptm[3])<sleep) {
-    output = system(paste0("tail -n ",20," ",h2oOutput), intern=TRUE)
+    tryCatch({
+      output = system(paste0("tail -n ",20," ",h2oOutput), intern=TRUE)
+    },  error = function(e) {
+      message(paste0("call: ", e$call))
+      warning(e$message)
+    })
     Sys.sleep(time = 1)
   }
   h2oLog(h2oOutput=h2oOutput)
@@ -88,7 +98,12 @@ h2oLog <- function(
   h2oOutput = "nohup.out",
   n = 20
 ) {
-  output = system(paste0("tail -n ",n," ",h2oOutput), intern=TRUE)
+  tryCatch({
+    output = system(paste0("tail -n ",n," ",h2oOutput), intern=TRUE)
+  },  error = function(e) {
+    message(paste0("call: ", e$call))
+    warning(e$message)
+  })
   if (exists("x.message")) {
     x.message(output)
   } else {
